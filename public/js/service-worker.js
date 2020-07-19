@@ -1,6 +1,7 @@
 // name of the service worker so its uniquely stored and doesn't conflict with other potential service workers.
 const APP_PREFIX = 'Budget_Tracker-';
 const VERSION = 'version_1';
+const DATA_CACHE_NAME = 'Budget_tracker-v1'
 
 const CACHE_NAME = APP_PREFIX + VERSION;
 // files to be stored in memory.
@@ -59,7 +60,7 @@ self.addEventListener('fetch', function(e){
     if (e.request.url.includes('/api/')) {
         e.respondWith(
             caches
-                .open(CACHE_NAME)
+                .open(DATA_CACHE_NAME)
                 .then(cache => {
                     return fetch(e.request)
                         .then(response => {
