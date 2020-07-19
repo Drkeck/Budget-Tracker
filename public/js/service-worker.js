@@ -50,5 +50,37 @@ self.addEventListener('active', function(e){
 
 // finds what files it needs from memmory and what it can load while offline.
 self.addEventListener('fetch', function(e){
+    if (e.request.url.includes('/api/')) {
+        e.respondWith(
+            caches
+                .open(DATA_CACHE_NAME)
+                .then(cache => {
+                    return fetch(e.request)
+                        .then(response => {
+                            if (response.status === 200) {
+                                cache.put(e.request.url, response.clone());
+                            }
 
+                            return response;
+                        })
+                        .catch(err =>{
+                            return cache.match(e.request);
+                        })
+                })
+                .catch(err => console.log(err))
+        )
+        return
+    }
+
+    e.respondWith(
+        fetch(e.request).catch(function() {
+            return caches.match(e.request).then(function(response) {
+                if (response) {
+                    return response
+                } else if (e.request.headers.get('accept').includes('text/html')) {
+                    return caches.match('/');
+                }
+            })
+        })
+    )
 })
