@@ -1,7 +1,10 @@
-// name of the service worker so its uniquely stored and doesn't conflict with other potential service workers.
-const CACHE_NAME = 'Budget_Tracker_v1';
-const DATA_CACHE_NAME = 'Budget_Tracker_v1';
+const { version } = require("mongoose");
 
+// name of the service worker so its uniquely stored and doesn't conflict with other potential service workers.
+const APP_PREFIX = 'Budget_Tracker-';
+const VERSION = 'version_1';
+
+const CACHE_NAME = APP_PREFIX + VERSION;
 // files to be stored in memory.
 const FILES_TO_CACHE = [
     '/',
@@ -21,8 +24,8 @@ const FILES_TO_CACHE = [
 
 // installing the service worker and potentially removing an older one.
 self.addEventListener('install', function(e){
-    e.waitUntill(
-        caches.open(CACHE_NAME).then(cache => {
+    e.waitUntil(
+        caches.open(CACHE_NAME).then(function(cache) {
             console.log('Files are being cached!');
             return cache.addAll(FILES_TO_CACHE);
         })
@@ -33,19 +36,23 @@ self.addEventListener('install', function(e){
 
 // setting up how the service worker will behave with files it needs to store on memory.
 self.addEventListener('active', function(e){
-    e.waitUntill(
-        caches.keys().then(keyList => {
+    e.waitUntil(
+        caches.keys().then(function(keyList) {
+            let cacheKeepList = keyList.filter(function (key) {
+                return key.indexOf(APP_PREFIX);
+            })
+            cacheKeepList.push(CACHE_NAME)
+
             return Promise.all(
-                keyList.map(key => {
-                    if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-                        console.log('removing old cahced data', key);
-                        return caches.delete(key);
+                keyList.map(function(key, i) {
+                    if (cacheKeepList.indexOf(key) === -1) {
+                        console.log('deleting cahce: ' + keyList[i]);
+                        return caches.delete(keyList[i]);
                     }
                 })
             )
         })
     )
-    self.Clients.claim();
 })
 
 // finds what files it needs from memmory and what it can load while offline.
