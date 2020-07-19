@@ -22,13 +22,30 @@ const FILES_TO_CACHE = [
 // installing the service worker and potentially removing an older one.
 self.addEventListener('install', function(e){
     e.waitUntill(
-
-    )
+        caches.open(CACHE_NAME).then(cache => {
+            console.log('Files are being cached!');
+            return cache.addAll(FILES_TO_CACHE);
+        })
+    );
+    
+    self.skipWaiting();
 })
 
 // setting up how the service worker will behave with files it needs to store on memory.
 self.addEventListener('active', function(e){
-
+    e.waitUntill(
+        caches.keys().then(keyList => {
+            return Promise.all(
+                keyList.map(key => {
+                    if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+                        console.log('removing old cahced data', key);
+                        return caches.delete(key);
+                    }
+                })
+            )
+        })
+    )
+    self.Clients.claim();
 })
 
 // finds what files it needs from memmory and what it can load while offline.
