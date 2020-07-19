@@ -50,6 +50,7 @@ self.addEventListener('active', function(e){
 
 // finds what files it needs from memmory and what it can load while offline.
 self.addEventListener('fetch', function(e){
+    // checks to see if the fetch if for an api and if it has older results in memory
     if (e.request.url.includes('/api/')) {
         e.respondWith(
             caches
@@ -71,7 +72,7 @@ self.addEventListener('fetch', function(e){
         )
         return
     }
-
+// checks for other requests such as CSS/JS/HTML/PNG or other files the application needs is in memory and can be pulled from.
     e.respondWith(
         fetch(e.request).catch(function() {
             return caches.match(e.request).then(function(response) {
