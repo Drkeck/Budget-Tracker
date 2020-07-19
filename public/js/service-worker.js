@@ -1,6 +1,8 @@
+// name of the service worker so its uniquely stored and doesn't conflict with other potential service workers.
 const CACHE_NAME = 'Budget_Tracker_v1';
 const DATA_CACHE_NAME = 'Budget_Tracker_v1';
 
+// files to be stored in memory.
 const FILES_TO_CACHE = [
     '/',
     'index.html',
@@ -17,14 +19,19 @@ const FILES_TO_CACHE = [
     '/icons/icon-512x512.png'
 ];
 
+// installing the service worker and potentially removing an older one.
 self.addEventListener('install', function(e){
-    
+    e.waitUntill(
+
+    )
 })
 
+// setting up how the service worker will behave with files it needs to store on memory.
 self.addEventListener('active', function(e){
 
 })
 
+// finds what files it needs from memmory and what it can load while offline.
 self.addEventListener('fetch', function(e){
 
 })
