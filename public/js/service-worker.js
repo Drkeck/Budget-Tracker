@@ -1,5 +1,3 @@
-const { version } = require("mongoose");
-
 // name of the service worker so its uniquely stored and doesn't conflict with other potential service workers.
 const APP_PREFIX = 'Budget_Tracker-';
 const VERSION = 'version_1';
