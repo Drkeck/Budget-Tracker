@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 // name of the service worker so its uniquely stored and doesn't conflict with other potential service workers.
 const CACHE_NAME = 'Budget-tracker-v2'
 const DATA_CACHE_NAME = 'Budget-tracker-v2'
