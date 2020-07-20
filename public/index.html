@@ -12,6 +12,15 @@
   <link rel="manifest" href="manifest.json">
 
   <title>Budget Tracker</title>
+  <location path="/js/service-worker.js">
+    <system.webServer>
+        <httpProtocol>
+            <customHeaders>
+                <add name="Service-Worker-Allowed" value="/" />
+            </customHeaders>
+        </httpProtocol>
+    </system.webServer>
+</location>
 </head>
 <body>
   <div class="wrapper">
