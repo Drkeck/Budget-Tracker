@@ -46,21 +46,11 @@
   <script src="js/index.js"></script>
   <script src="js/idb.js"></script>
 
-  <location path="/js/service-worker.js">
-    <system.webServer>
-        <httpProtocol>
-            <customHeaders>
-                <add name="Service-Worker-Allowed" value="/" />
-            </customHeaders>
-        </httpProtocol>
-    </system.webServer>
-  </location>
-
   <script type="text/javascript">
   (function() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
-        .register('/js/service-worker.js', { scope: '/' })
+        .register('/js/service-worker.js', { scope: '/js/' })
         .then(() => console.log('service worker registered successfully'))
         .catch(err => console.log('service worker registration failed: ' + err))
     }
