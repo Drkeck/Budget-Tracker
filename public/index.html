@@ -7,16 +7,6 @@
   <meta name="theme-color" content="#317EFB">
   <link rel="shortcut icon" href="icons/icon-192x192.png" type="image/x-icon">
 
-  <location path="/js/service-worker.js">
-    <system.webServer>
-        <httpProtocol>
-            <customHeaders>
-                <add name="Service-Worker-Allowed" value="/" />
-            </customHeaders>
-        </httpProtocol>
-    </system.webServer>
-</location>
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="manifest" href="manifest.json">
@@ -55,6 +45,17 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="js/index.js"></script>
   <script src="js/idb.js"></script>
+
+  <location path="/js/service-worker.js">
+    <system.webServer>
+        <httpProtocol>
+            <customHeaders>
+                <add name="Service-Worker-Allowed" value="/" />
+            </customHeaders>
+        </httpProtocol>
+    </system.webServer>
+  </location>
+
   <script type="text/javascript">
   (function() {
     if ('serviceWorker' in navigator) {
